@@ -1,11 +1,16 @@
-usage: check_duplicity [-h] [-c CRIT] LOCATION
+usage: check_docker_duplicity [-h] [-c CRIT] LOCATION
 
-Check a duplicity backup. This Nagios plugin should be run as a passive check
-because of its long run-time.
+Check a duplicity backup. This Nagios plugin makes use of a cron job to run
+the docker job to output the backup status to file (See below for setup).
 
 positional arguments:
-  LOCATION    the duplicity backup location (URL)
+  LOCATION    the location of the cron output file.
 
 optional arguments:
   -h, --help  show this help message and exit
   -c CRIT     backup age considered critical, in seconds (default: two weeks)
+
+
+CRON Setup:
+Add the following line to your cron tab:
+cd <Location of Docker-Compose file> && docker-compose up duplicity-status | tee <Output location (passed above)>
